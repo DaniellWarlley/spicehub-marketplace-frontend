@@ -1,19 +1,35 @@
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import Input from "../components/Input"
 import { MdLockOutline, MdOutlineEmail } from "react-icons/md"
 import { useNavigate } from "react-router-dom"
+import useLog from "../hooks/useLog"
 
-const Container = styled.div`
+const aparecer = keyframes`
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+`
+const Form = styled.form`
     height: 70%;
+    width: 50%;
 
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+
+    animation: ${aparecer} 0.3s ease;
 `
 const TitleContainer = styled.div`
     margin-bottom: 10%;
-
+    
+    font-size: 0.9em;
+    
     h1 {
         color: #733521;
     }
@@ -45,8 +61,8 @@ const Button = styled.button`
     margin-top: 5px;
     margin-bottom: 1%;
 
-    height: 45px;
-    width: 100%;
+    height: 40px;
+    width: 330px;
 
     background-color: #733521;
     color: #FFFAF3;
@@ -62,16 +78,17 @@ const Button = styled.button`
 `
 export default function Login(){
     const navigate = useNavigate()
+    const { register, errors, handleSubmit, onSubmit } = useLog()
 
     return(
-        <Container>
+        <Form onSubmit={handleSubmit(onSubmit)}>
             <TitleContainer>
                 <p>Bem-vindo de volta</p>
                 <h1>Entre na sua conta</h1>
                 <p>Informe seus dados para continuar a experiência</p>
             </TitleContainer>
-            <Input type="text" placeholder="seuemail@gmail.com" label="E-MAIL" icon={MdOutlineEmail}/>
-            <Input type="password" placeholder="Digite sua senha" label="SENHA" icon={MdLockOutline}/>
+            <Input type="text" placeholder="seuemail@gmail.com" label="E-MAIL" icon={MdOutlineEmail} name="email" register={register} errors={errors.email?.message}/>
+            <Input type="password" placeholder="Digite sua senha" label="SENHA" icon={MdLockOutline} name="password" register={register} errors={errors.password?.message}/>
             <Options>
                 <CheckBoxContainer>
                     <input type="checkbox"/>
@@ -79,8 +96,8 @@ export default function Login(){
                 </CheckBoxContainer>
                 <p>esqueci minha senha</p>
             </Options>
-            <Button>ENTRAR NA MINHA CONTA</Button>
+            <Button type="submit">ENTRAR NA MINHA CONTA</Button>
             <p>Ainda não tem uma conta? <span onClick={() => navigate("/register")}>Clique aqui.</span></p>
-        </Container>
+        </Form>
     )
 }

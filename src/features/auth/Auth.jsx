@@ -24,12 +24,12 @@ const LeftSide = styled.div`
     h1{
         color: #FBF6ED;
 
-        font-size: 3em;
+        font-size: 2em;
     }
     p {
         color: #F4EBDD;
 
-        font-size: 1.5rem;
+        font-size: 1.1rem;
     }
 
     @media (max-width: 880px) {
@@ -59,7 +59,7 @@ const RightSide = styled.div`
     }
 `
 const Img = styled.img`
-    width: 70%;
+    width: 50%;
 `
 
 export default function Auth(){

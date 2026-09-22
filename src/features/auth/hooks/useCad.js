@@ -1,20 +1,21 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod'
-import { loginSchema } from "../schemas/authSchema"
+import { cadSchema } from "../schemas/authSchema"
 import authService from "../services/authService"
 
-export default function useLog(){
+export default function useCad(){
     const { register, formState, handleSubmit } = useForm({
         defaultValues: {
+            name: '',
             email: '',
             password: ''
         },
-        resolver: zodResolver(loginSchema)
+        resolver: zodResolver(cadSchema)
     })
     
     const onSubmit = async (data) => {
         try{
-            await authService.login(data)
+            await authService.register(data)
             console.log(data)
         }catch(err){
             console.log(err)
