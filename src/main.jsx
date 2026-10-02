@@ -25,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
   h1{
     font-family: "Poppins", sans-serif;
   }
-  p,label {
+  p,label, span {
     font-family: "Inter", sans-serif;
   }
 `

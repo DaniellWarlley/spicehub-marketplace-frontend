@@ -69,9 +69,11 @@ export default function Register(){
                 <h1>Crie sua conta</h1>
                 <p>Informe seus dados para continuar a experiência</p>
             </TitleContainer>
+
             <Input type="text" placeholder="Digite seu nome" label="NOME" icon={MdOutlinePerson2} register={register} name='name' errors={errors.name?.message}/>
             <Input type="text" placeholder="seuemail@gmail.com" label="E-MAIL" icon={MdOutlineEmail} register={register} name='email' errors={errors.email?.message}/>
             <Input type="password" placeholder="Digite sua senha" label="SENHA" icon={MdLockOutline} register={register} name='password' errors={errors.password?.message}/>
+            
             <Button type="submit" >ENTRAR NA MINHA CONTA</Button>
             <p>Já tem uma conta? <span onClick={() => navigate("../")}>Clique aqui.</span></p>
         </Form>

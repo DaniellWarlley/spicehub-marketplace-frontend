@@ -1,26 +1,27 @@
-export default async function useApiFetch(endPoint, { method = 'GET', headers = {}, body} = {}){
-    try{
+export default async function useApiFetch( endPoint, { method = 'GET', headers = {}, body } = {} ) {
+    try {
         const response = await fetch(`http://localhost:8080/${endPoint}`, {
-            method: method,
+            method,
             headers: {
                 "Content-Type": "application/json",
-                ... (headers),
-                credentials: "include",
+                ...headers,
             },
-            ...(body && method != 'GET' && {
+            credentials: "include",
+            ...(body && method !== 'GET' && {
                 body: JSON.stringify(body)
-            }) 
+            })
         })
 
         if (!response.ok) {
             const error = new Error('Erro na requisição')
             error.status = response.status
             error.body = await response.json().catch(() => null)
+
             throw error
         }
 
         return response.json()
-    }catch(err){
+    } catch (err) {
         throw err
     }
 }
