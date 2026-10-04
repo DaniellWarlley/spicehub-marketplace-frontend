@@ -20,6 +20,10 @@ export default async function useApiFetch( endPoint, { method = 'GET', headers =
             throw error
         }
 
+        if (response.status === 204) {
+            return null
+        }
+
         return response.json()
     } catch (err) {
         throw err

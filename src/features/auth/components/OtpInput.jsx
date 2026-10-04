@@ -2,6 +2,8 @@ import { useRef } from "react"
 import styled from "styled-components"
 
 const Slots = styled.div`
+    margin-bottom: 10%;
+
     width: 100%;
     
     display: flex;

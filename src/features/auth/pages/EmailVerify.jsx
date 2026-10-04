@@ -1,8 +1,11 @@
 import styled, { keyframes } from "styled-components"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import OtpInput from "../components/OtpInput"
 import { Controller } from "react-hook-form"
 import useOtpForm from "../hooks/useOtpForm"
+import useEmailVerificationStore from "../store/useEmailVerificationStore"
+import { useEffect, useState } from "react"
+import authService from "../services/authService"
 
 const aparecer = keyframes`
     from {
@@ -19,9 +22,13 @@ const Form = styled.form`
     width: 50%;
 
     display: flex;
-    
     justify-content: center;
     flex-direction: column;
+
+    @media (max-width: 880px) {
+        height: 75%;
+        width: 70%;
+    }
 
     animation: ${aparecer} 0.3s ease;
 `
@@ -38,13 +45,18 @@ const TitleContainer = styled.div`
     }
 `
 
+const ButtonContainer = styled.div`
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+`
 const Button = styled.button`
     padding: 5px;
     margin-top: 5px;
     margin-bottom: 1%;
 
     height: 40px;
-    width: 330px;
+    width: 100%;
 
     background-color: #733521;
     color: #FFFAF3;
@@ -60,12 +72,24 @@ const Button = styled.button`
 `
 export default function EmailVerify(){
     const navigate = useNavigate()
-
-    const { state } = useLocation()
-    const email = state?.email
-    
+    const email = useEmailVerificationStore((state) => state.email)
     const { control, handleSubmit, onSubmit } = useOtpForm(email)
-    
+    const [ secondsLeft, setSecondsLeft ] = useState(60)
+    const [ canSendCode, setCanSendCode ] = useState(false)
+
+    useEffect(() => {
+        if(secondsLeft == 0){
+            setCanSendCode(true)
+
+            return
+        }
+
+        const timeOutId = setTimeout(() => {
+            setSecondsLeft((current) => Math.max(0, current - 1))
+        }, 1000)
+
+        return () => clearTimeout(timeOutId)
+    }, [secondsLeft])
     
     return(
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -84,9 +108,17 @@ export default function EmailVerify(){
                 )}
             />
 
-            <p>Náo recebeu o código? <span onClick={() => navigate("../")}>Reenviar código.</span></p>
-            <Button type="submit" >VERIFICAR CÓDIGO</Button>
-            <span>Voltar para login</span>
+            {
+                canSendCode ? (
+                    <p>Náo recebeu o código? <span onClick={() => authService.resendVerification(email)}>Reenviar código.</span></p>
+                ) : (
+                    <p>Aguarde <span>{secondsLeft}</span> para reenviar o código</p>
+                )
+            }
+            <ButtonContainer>
+                <Button type="submit" >VERIFICAR CÓDIGO</Button>
+                <span onClick={() => navigate('../')}>Voltar para login</span>
+            </ButtonContainer>
         </Form>
     )
 }

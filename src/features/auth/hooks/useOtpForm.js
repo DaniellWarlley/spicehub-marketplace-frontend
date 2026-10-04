@@ -17,8 +17,6 @@ export default function useOtpForm(email = ''){
         }catch(err) {
             console.log(err)
         }
-        console.log(email)
-        console.log(data)
     }
 
     return {

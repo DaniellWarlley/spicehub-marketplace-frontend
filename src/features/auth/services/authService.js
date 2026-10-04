@@ -22,6 +22,16 @@ const authService = {
             methof: 'POST',
             body: data
         })
+
+        return res
+    },
+    resendVerification: async (data) => {
+        const res = await useApiFetch('auth/resend-verification', {
+            method: 'POST',
+            body: data
+        })
+
+        return res
     }
 }
 

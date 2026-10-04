@@ -19,9 +19,13 @@ const Form = styled.form`
     width: 50%;
 
     display: flex;
-    align-items: center;
     justify-content: center;
     flex-direction: column;
+
+    @media (max-width: 880px) {
+        height: 75%;
+        width: 70%;
+    }
 
     animation: ${aparecer} 0.3s ease;
 `
@@ -37,14 +41,18 @@ const TitleContainer = styled.div`
         color: #AA6B47;
     }
 `
-
+const ButtonContainer = styled.div`
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+`
 const Button = styled.button`
     padding: 5px;
     margin-top: 5px;
     margin-bottom: 1%;
 
     height: 40px;
-    width: 330px;
+    width: 100%;
 
     background-color: #733521;
     color: #FFFAF3;
@@ -53,7 +61,7 @@ const Button = styled.button`
     cursor: pointer;
 
     transition: all ease 0.3s;
-    
+
     &:hover {
         background-color: #602e1d;
     }
@@ -74,8 +82,10 @@ export default function Register(){
             <Input type="text" placeholder="seuemail@gmail.com" label="E-MAIL" icon={MdOutlineEmail} register={register} name='email' errors={errors.email?.message}/>
             <Input type="password" placeholder="Digite sua senha" label="SENHA" icon={MdLockOutline} register={register} name='password' errors={errors.password?.message}/>
             
-            <Button type="submit" >ENTRAR NA MINHA CONTA</Button>
-            <p>Já tem uma conta? <span onClick={() => navigate("../")}>Clique aqui.</span></p>
+            <ButtonContainer>
+                <Button type="submit" >ENTRAR NA MINHA CONTA</Button>
+                <p>Já tem uma conta? <span onClick={() => navigate("../")}>Clique aqui.</span></p>
+            </ButtonContainer>
         </Form>
     )
 }

@@ -16,7 +16,6 @@ const InputWrapper = styled.div`
     padding: 5px;
 
     height: 30px;
-    width: 330px;
 
     display: flex;
     align-items: center;
@@ -42,10 +41,10 @@ const InputWrapper = styled.div`
 export default function Input({ label, type, placeholder, icon: Icon, name, register, errors }){
     return(
         <InputContainer>
-            <label htmlFor="email">{label}</label>
+            <label htmlFor={name}>{label}</label>
             <InputWrapper>
                 {Icon && <Icon size={18} color="#733521"/>}
-                <input type={type} placeholder={placeholder} {...register(name)}/>
+                <input id={name} type={type} placeholder={placeholder} {...register(name)}/>
             </InputWrapper>
             <p>{errors}</p>
         </InputContainer>

@@ -56,10 +56,16 @@ const RightSide = styled.div`
 
     @media (max-width: 880px) {
         width: 100%;
+        min-height: 100dvh;
+
+        background-image: url("/images/fundo-mobile.png");
+        background-position: center top;
+        background-repeat: no-repeat;
+        background-size: 100% auto;
     }
 `
 const Img = styled.img`
-    width: 50%;
+    width: 70%;
 `
 
 export default function Auth(){

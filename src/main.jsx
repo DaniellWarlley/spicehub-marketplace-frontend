@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import { createGlobalStyle } from 'styled-components'
 import { RouterProvider } from 'react-router-dom'
 import {router} from './app/providers/router/routerProvider.jsx'
-import Auth from './features/auth/Auth'
 
 const GlobalStyle = createGlobalStyle`
   @font-face {

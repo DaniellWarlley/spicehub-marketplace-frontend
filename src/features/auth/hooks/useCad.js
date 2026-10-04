@@ -18,23 +18,17 @@ export default function useCad(){
     })
     
     const onSubmit = async (data) => {
-        navigate('/verificarEmail', {
+        try{
+            await authService.register(data)
+            navigate('/verificarEmail', {
                 state: {
                     email: data.email
                 }
             })
             console.log(data)
-        // try{
-        //     await authService.register(data)
-        //     navigate('/verificarEmail', {
-        //         state: {
-        //             email: data.email
-        //         }
-        //     })
-        //     console.log(data)
-        // }catch(err){
-        //     console.log(err)
-        // }
+        }catch(err){
+            console.log(err)
+        }
     }
     return{
         register,
