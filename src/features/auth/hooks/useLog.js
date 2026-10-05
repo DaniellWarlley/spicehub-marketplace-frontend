@@ -15,7 +15,6 @@ export default function useLog(){
     const onSubmit = async (data) => {
         try{
             await authService.login(data)
-            console.log(data)
         }catch(err){
             console.log(err)
         }

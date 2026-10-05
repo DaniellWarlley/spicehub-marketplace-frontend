@@ -19,7 +19,7 @@ const authService = {
     },
     verifyEmail: async (data) => {
         const res = await useApiFetch('auth/verify-email', {
-            methof: 'POST',
+            method: 'POST',
             body: data
         })
 

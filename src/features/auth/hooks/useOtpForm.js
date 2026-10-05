@@ -12,8 +12,12 @@ export default function useOtpForm(email = ''){
     })
 
     const onSubmit = async (data) => {
+        const payload = {
+            email,
+            code: data.code
+        }
         try{
-            await authService.verifyEmail(data)
+            await authService.verifyEmail(payload)
         }catch(err) {
             console.log(err)
         }

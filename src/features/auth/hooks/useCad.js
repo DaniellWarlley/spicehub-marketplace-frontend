@@ -2,10 +2,11 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { cadSchema } from "../schemas/authSchema"
 import authService from "../services/authService"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import useEmailVerificationStore from "../store/useEmailVerificationStore"
 
 export default function useCad(){
-    const { state } = useLocation()
+    const setEmail = useEmailVerificationStore((state) => state.setEmail)
     const navigate = useNavigate()
 
     const { register, formState, handleSubmit } = useForm({
@@ -20,12 +21,8 @@ export default function useCad(){
     const onSubmit = async (data) => {
         try{
             await authService.register(data)
-            navigate('/verificarEmail', {
-                state: {
-                    email: data.email
-                }
-            })
-            console.log(data)
+            setEmail(data.email)
+            navigate('/verificarEmail')
         }catch(err){
             console.log(err)
         }
