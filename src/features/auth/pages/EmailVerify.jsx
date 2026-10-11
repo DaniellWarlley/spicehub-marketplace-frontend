@@ -6,6 +6,7 @@ import useOtpForm from "../hooks/useOtpForm"
 import useEmailVerificationStore from "../store/useEmailVerificationStore"
 import { useEffect, useState } from "react"
 import authService from "../services/authService"
+import Loading from "../../../shared/components/Loading"
 
 const aparecer = keyframes`
     from {
@@ -18,6 +19,8 @@ const aparecer = keyframes`
     }
 `
 const Form = styled.form`
+    position: relative;
+    
     height: 70%;
     width: 50%;
 
@@ -73,7 +76,7 @@ const Button = styled.button`
 export default function EmailVerify(){
     const navigate = useNavigate()
     const email = useEmailVerificationStore((state) => state.email)
-    const { control, handleSubmit, onSubmit } = useOtpForm(email)
+    const { control, handleSubmit, onSubmit, isSubmitting, errors } = useOtpForm(email)
     const [ secondsLeft, setSecondsLeft ] = useState(60)
     const [ canSendCode, setCanSendCode ] = useState(false)
 
@@ -90,9 +93,25 @@ export default function EmailVerify(){
 
         return () => clearTimeout(timeOutId)
     }, [secondsLeft])
-    
+
+    const handleResendVerification = async () => {
+        if (!canSendCode) return
+
+        setSecondsLeft(60)
+        setCanSendCode(false)
+
+        try {
+            await authService.resendVerification(email)
+        }catch(err){
+            console.log(err)
+        }
+    }
+
     return(
         <Form onSubmit={handleSubmit(onSubmit)}>
+            { isSubmitting && (
+                <Loading/>
+            )}
             <TitleContainer>
                 <p>Quase lá</p>
                 <h1>Confirme seu e-mail</h1>
@@ -107,16 +126,16 @@ export default function EmailVerify(){
                     <OtpInput value={field.value} onChange={field.onChange}/>
                 )}
             />
-
+            <p style={{ color: '#EF4444' }}>{errors.code?.message}</p>
             {
                 canSendCode ? (
-                    <p>Náo recebeu o código? <span onClick={() => authService.resendVerification(email)}>Reenviar código.</span></p>
+                    <p>Náo recebeu o código? <span onClick={handleResendVerification}>Reenviar código.</span></p>
                 ) : (
                     <p>Aguarde <span>{secondsLeft}</span> para reenviar o código</p>
                 )
             }
             <ButtonContainer>
-                <Button type="submit" >VERIFICAR CÓDIGO</Button>
+                <Button type="submit">VERIFICAR CÓDIGO</Button>
                 <span onClick={() => navigate('../')}>Voltar para login</span>
             </ButtonContainer>
         </Form>

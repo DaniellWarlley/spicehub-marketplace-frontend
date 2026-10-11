@@ -9,7 +9,7 @@ export default function useCad(){
     const setEmail = useEmailVerificationStore((state) => state.setEmail)
     const navigate = useNavigate()
 
-    const { register, formState, handleSubmit } = useForm({
+    const { register, formState, handleSubmit, setError,  } = useForm({
         defaultValues: {
             name: '',
             email: '',
@@ -24,12 +24,19 @@ export default function useCad(){
             setEmail(data.email)
             navigate('/verificarEmail')
         }catch(err){
-            console.log(err)
+            if (err.status == 409){
+                setError('email', {
+                    type: 'server',
+                    message: 'Este e-mail já está cadastrado.'
+                })
+            }
+            console.log(err.body)
         }
     }
     return{
         register,
         errors: formState.errors,
+        isSubmitting: formState.isSubmitting,
         handleSubmit,
         onSubmit
     }

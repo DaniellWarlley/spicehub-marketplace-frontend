@@ -16,7 +16,7 @@ export default async function useApiFetch( endPoint, { method = 'GET', headers =
             const error = new Error('Erro na requisição')
             error.status = response.status
             error.body = await response.json().catch(() => null)
-
+            
             throw error
         }
 

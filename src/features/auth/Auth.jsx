@@ -65,7 +65,7 @@ const RightSide = styled.div`
     }
 `
 const Img = styled.img`
-    width: 70%;
+    width: 65%;
 `
 
 export default function Auth(){

@@ -4,7 +4,7 @@ import { otpSchema } from "../schemas/authSchema"
 import authService from "../services/authService"
 
 export default function useOtpForm(email = ''){
-    const { control, handleSubmit, formState } = useForm({
+    const { control, handleSubmit, formState, setError } = useForm({
         defaultValues: {
             code: ''
         },
@@ -19,12 +19,20 @@ export default function useOtpForm(email = ''){
         try{
             await authService.verifyEmail(payload)
         }catch(err) {
+            if(err.status == 400){
+                setError('code', {
+                    type: 'server',
+                    message: 'Código inválido.'
+                })
+            }
             console.log(err)
         }
     }
 
     return {
         control,
+        errors: formState.errors,
+        isSubmitting: formState.isSubmitting,
         handleSubmit,
         onSubmit
     }

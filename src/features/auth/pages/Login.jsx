@@ -3,6 +3,7 @@ import Input from "../components/Input"
 import { MdLockOutline, MdOutlineEmail } from "react-icons/md"
 import { useNavigate } from "react-router-dom"
 import useLog from "../hooks/useLog"
+import Loading from '../../../shared/components/Loading.jsx'
 
 const aparecer = keyframes`
     from {
@@ -15,6 +16,8 @@ const aparecer = keyframes`
     }
 `
 const Form = styled.form`
+    position: relative;
+
     height: 70%;
     width: 50%;
 
@@ -30,7 +33,7 @@ const Form = styled.form`
     animation: ${aparecer} 0.3s ease;
 `
 const TitleContainer = styled.div`
-    margin-bottom: 10%;
+    margin-bottom: 5%;
     
     font-size: 0.9em;
     
@@ -42,7 +45,7 @@ const TitleContainer = styled.div`
     }
 `
 const Options = styled.div`
-    margin-top: 10%;
+    margin-top: 5%;
 
     width: 100%;
 
@@ -87,10 +90,13 @@ const Button = styled.button`
 `
 export default function Login(){
     const navigate = useNavigate()
-    const { register, errors, handleSubmit, onSubmit } = useLog()
+    const { register, errors, handleSubmit, onSubmit, isSubmitting } = useLog()
 
     return(
         <Form onSubmit={handleSubmit(onSubmit)}>
+            {isSubmitting && (
+                <Loading/>
+            )}
             <TitleContainer>
                 <p>Bem-vindo de volta</p>
                 <h1>Entre na sua conta</h1>

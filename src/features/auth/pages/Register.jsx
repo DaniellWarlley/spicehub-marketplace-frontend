@@ -3,6 +3,7 @@ import Input from "../components/Input"
 import { MdLockOutline, MdOutlineEmail, MdOutlinePerson2 } from "react-icons/md"
 import { useNavigate } from "react-router-dom"
 import useCad from "../hooks/useCad"
+import Loading from "../../../shared/components/Loading"
 
 const aparecer = keyframes`
     from {
@@ -15,6 +16,8 @@ const aparecer = keyframes`
     }
 `
 const Form = styled.form`
+    position: relative;
+    
     height: 70%;
     width: 50%;
 
@@ -30,7 +33,7 @@ const Form = styled.form`
     animation: ${aparecer} 0.3s ease;
 `
 const TitleContainer = styled.div`
-    margin-bottom: 10%;
+    margin-bottom: 5 %;
     
     font-size: 0.9em;
     
@@ -68,10 +71,13 @@ const Button = styled.button`
 `
 export default function Register(){
     const navigate = useNavigate()
-    const { register, onSubmit, handleSubmit, errors } = useCad()
+    const { register, onSubmit, handleSubmit, errors, isSubmitting } = useCad()
     
     return(
         <Form onSubmit={handleSubmit(onSubmit)}>
+            { isSubmitting && (
+                <Loading/>
+            )}
             <TitleContainer>
                 <p>Bem-vindo</p>
                 <h1>Crie sua conta</h1>
