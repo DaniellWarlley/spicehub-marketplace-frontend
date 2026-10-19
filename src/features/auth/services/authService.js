@@ -32,6 +32,22 @@ const authService = {
         })
 
         return res
+    },
+    requestResetCode: async (data) => {
+        const res = await useApiFetch('auth/request-password-reset', {
+            method: 'POST',
+            body: data
+        })
+
+        return res
+    },
+    resetPass: async (data) => {
+        const res = await useApiFetch('auth/reset-password', {
+            method: 'POST',
+            body: data
+        })
+
+        return res
     }
 }
 

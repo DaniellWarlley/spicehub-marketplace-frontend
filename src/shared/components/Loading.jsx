@@ -13,6 +13,7 @@ const LoadingContainer = styled.div`
     align-items: center;
 
     background-color: #F4EBDD;
+    border-radius: 5px;
 
     z-index: 9999; 
 `

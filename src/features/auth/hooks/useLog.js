@@ -4,7 +4,7 @@ import { loginSchema } from "../schemas/authSchema"
 import authService from "../services/authService"
 
 export default function useLog(){
-    const { register, formState, handleSubmit, setError } = useForm({
+    const { register, formState, handleSubmit, setError, getValues } = useForm({
         defaultValues: {
             email: '',
             password: ''
@@ -16,7 +16,7 @@ export default function useLog(){
         try{
             await authService.login(data)
         }catch(err){
-            if (err.status == 401){
+            if (err.status == 401 || err.status == 400){
                 setError('email', {
                     type: 'server',
                     message: 'E-mail inválido.'
@@ -34,6 +34,7 @@ export default function useLog(){
         errors: formState.errors,
         isSubmitting: formState.isSubmitting,
         handleSubmit,
-        onSubmit
+        onSubmit,
+        getValues
     }
 }

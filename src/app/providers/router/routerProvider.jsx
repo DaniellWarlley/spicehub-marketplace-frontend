@@ -3,6 +3,7 @@ import Auth from "../../../features/auth/Auth"
 import Login from "../../../features/auth/pages/Login"
 import Register from "../../../features/auth/pages/Register"
 import EmailVerify from "../../../features/auth/pages/EmailVerify"
+import ResetPassword from "../../../features/auth/pages/ResetPassword"
 
 export const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
             {
                 element: <EmailVerify/>,
                 path: 'verificarEmail'
+            },
+            {
+                element: <ResetPassword/>,
+                path: 'recuperarSenha'
             }
         ]
     }

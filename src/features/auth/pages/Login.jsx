@@ -4,6 +4,7 @@ import { MdLockOutline, MdOutlineEmail } from "react-icons/md"
 import { useNavigate } from "react-router-dom"
 import useLog from "../hooks/useLog"
 import Loading from '../../../shared/components/Loading.jsx'
+import useEmailVerificationStore from "../store/useEmailVerificationStore.js"
 
 const aparecer = keyframes`
     from {
@@ -90,7 +91,8 @@ const Button = styled.button`
 `
 export default function Login(){
     const navigate = useNavigate()
-    const { register, errors, handleSubmit, onSubmit, isSubmitting } = useLog()
+    const { register, errors, handleSubmit, onSubmit, isSubmitting, getValues } = useLog()
+    const setEmail = useEmailVerificationStore((state) => state.setEmail)
 
     return(
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -109,7 +111,12 @@ export default function Login(){
                     <input type="checkbox"/>
                     <p>Lembrar de mim</p>
                 </CheckBoxContainer>
-                <p>esqueci minha senha</p>
+                <p onClick={() => {
+                    setEmail(getValues('email'))
+                    navigate('/recuperarSenha')
+                }}>
+                    esqueci minha senha
+                </p>
             </Options>
             <ButtonContainer>
                 <Button type="submit">ENTRAR NA MINHA CONTA</Button>
