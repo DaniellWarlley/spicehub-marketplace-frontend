@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { Outlet } from "react-router-dom"
+import restoreSession from "./services/restoreSession"
 
 const Main = styled.div`
     width: 100vw;
@@ -69,6 +70,8 @@ const Img = styled.img`
 `
 
 export default function Auth(){
+    restoreSession()
+
     return(
         <Main>
             <LeftSide>

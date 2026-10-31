@@ -1,4 +1,4 @@
-export default async function useApiFetch( endPoint, { method = 'GET', headers = {}, body } = {} ) {
+export default async function apiFetch( endPoint, { method = 'GET', headers = {}, body } = {} ) {
     try {
         const response = await fetch(`http://localhost:8080/${endPoint}`, {
             method,

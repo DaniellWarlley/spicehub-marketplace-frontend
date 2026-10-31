@@ -1,8 +1,9 @@
-import useApiFetch from "../../../shared/hooks/useApiFetch"
+import apiFetch from "../../../shared/api/apiFetch"
+import getCookie from "../utils/getCookie.js"
 
 const authService = {
     register: async (data) => {
-        const res = await useApiFetch('auth/register', {
+        const res = await apiFetch('auth/register', {
             method: 'POST',
             body: data
         })
@@ -10,7 +11,7 @@ const authService = {
         return res
     },
     login: async (data) => {
-        const res = await useApiFetch('auth/login', {
+        const res = await apiFetch('auth/login', {
             method: 'POST',
             body: data
         })
@@ -18,7 +19,7 @@ const authService = {
         return res
     },
     verifyEmail: async (data) => {
-        const res = await useApiFetch('auth/verify-email', {
+        const res = await apiFetch('auth/verify-email', {
             method: 'POST',
             body: data
         })
@@ -26,7 +27,7 @@ const authService = {
         return res
     },
     resendVerification: async (data) => {
-        const res = await useApiFetch('auth/resend-verification', {
+        const res = await apiFetch('auth/resend-verification', {
             method: 'POST',
             body: data
         })
@@ -34,7 +35,7 @@ const authService = {
         return res
     },
     requestResetCode: async (data) => {
-        const res = await useApiFetch('auth/request-password-reset', {
+        const res = await apiFetch('auth/request-password-reset', {
             method: 'POST',
             body: data
         })
@@ -42,13 +43,32 @@ const authService = {
         return res
     },
     resetPass: async (data) => {
-        const res = await useApiFetch('auth/reset-password', {
+        const res = await apiFetch('auth/reset-password', {
             method: 'POST',
             body: data
+        })
+
+        return res
+    },
+    refresh: async() => {
+        await apiFetch("auth/csrf")
+
+        const csrfToken = getCookie("XSRF-TOKEN")
+
+        if (!csrfToken) {
+            throw new Error("Não foi possível obter o token CSRF.")
+        }
+
+        const res = await apiFetch('auth/refresh', {
+            method: 'POST',
+            headers: {
+                "X-XSRF-TOKEN": csrfToken,
+            },
         })
 
         return res
     }
 }
 
+authService.refresh()
 export default authService

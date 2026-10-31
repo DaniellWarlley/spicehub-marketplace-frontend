@@ -21,12 +21,13 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
-  h1{
+  h1,h4{
     font-family: "Poppins", sans-serif;
   }
   p,label, span {
     font-family: "Inter", sans-serif;
   }
+    
 `
 createRoot(document.getElementById('root')).render(
   <StrictMode>

@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { loginSchema } from "../schemas/authSchema"
 import authService from "../services/authService"
+import useAuthStore from "../store/useAuthStore"
 
 export default function useLog(){
     const { register, formState, handleSubmit, setError, getValues } = useForm({
@@ -12,9 +13,13 @@ export default function useLog(){
         resolver: zodResolver(loginSchema)
     })
     
+    const setSession = useAuthStore((state) => state.setSession)
+
     const onSubmit = async (data) => {
         try{
-            await authService.login(data)
+            const res = await authService.login(data)
+            setSession(res)
+            await authService.refresh()
         }catch(err){
             if (err.status == 401 || err.status == 400){
                 setError('email', {

@@ -1,5 +1,5 @@
-import { useRef } from "react"
 import styled from "styled-components"
+import useOtpInput from "../hooks/useOtpInput"
 
 const Slots = styled.div`
     margin-bottom: 10%;
@@ -47,80 +47,14 @@ const NativeInput = styled.input`
     cursor: text;
 `
 
-export default function OtpInput({ value = '', onChange }) {
-    const inputsRef = useRef([])
-
-    const digits = Array.from({ length: 6 }, (_, index) => {
-        const character = value[index]
-        return character && character !== ' ' ? character : ''
-    })
-
-    const handleChange = (index, event) => {
-        const digit = event.target.value.replace(/[^0-9]/g, '').slice(-1)
-
-        const nextDigits = [...digits]
-        nextDigits[index] = digit
-
-        const nextCode = nextDigits.map((item) => item || ' ').join('')
-        onChange(nextCode)
-
-        if (digit && index < digits.length - 1) {
-            inputsRef.current[index + 1]?.focus()
-        }
-    }
-
-    const handleKeyDown = (index, event) => {
-        if (event.key == 'Backspace' && digits[index] == '' && index > 0) {
-            event.preventDefault()
-
-            const nextDigits = [...digits]
-            nextDigits[index - 1] = ''
-
-            const nextCode = nextDigits.map((item) => item || ' ').join('')
-            onChange(nextCode)
-
-            inputsRef.current[index - 1]?.focus()
-        }
-    }
-
-    const handlePaste = (index, event) => {
-        event.preventDefault()
-
-        const pastedDigits = event.clipboardData
-            .getData('text')
-            .replace(/[^0-9]/g, '')
-
-        if (!pastedDigits) return
-
-        const allEmpty = digits.every((digit) => digit === '')
-
-        const startIndex =
-            allEmpty || pastedDigits.length >= 6 ? 0 : index
-
-        const availableDigits = pastedDigits.slice(
-            0,
-            digits.length - startIndex
-        )
-
-        const nextDigits = [...digits]
-
-        availableDigits.split('').forEach((digit, offset) => {
-            nextDigits[startIndex + offset] = digit
-        })
-
-        const nextCode = nextDigits
-            .map((item) => item || ' ')
-            .join('')
-
-        onChange(nextCode)
-
-        const nextIndex = Math.min(
-            startIndex + availableDigits.length,
-            digits.length - 1
-        )
-
-        inputsRef.current[nextIndex]?.focus()
-    }
+export default function OtpInput({ value = "", onChange }) {
+    const {
+        digits,
+        inputsRef,
+        handleChange,
+        handleKeyDown,
+        handlePaste,
+    } = useOtpInput({ value, onChange })
 
     return (
         <Slots>

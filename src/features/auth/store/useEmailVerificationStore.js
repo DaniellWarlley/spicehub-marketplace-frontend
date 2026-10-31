@@ -5,7 +5,7 @@ const useEmailVerificationStore = create((set) => ({
 
     setEmail: (email) => set({email}),
 
-    clearEmail: () => set({email})
+    clearEmail: () => set({email: ''})
 }))
 
 export default useEmailVerificationStore

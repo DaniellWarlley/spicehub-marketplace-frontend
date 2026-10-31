@@ -4,6 +4,7 @@ import Login from "../../../features/auth/pages/Login"
 import Register from "../../../features/auth/pages/Register"
 import EmailVerify from "../../../features/auth/pages/EmailVerify"
 import ResetPassword from "../../../features/auth/pages/ResetPassword"
+import Catalog from "../../../features/catalog/Catalog"
 
 export const router = createBrowserRouter([
     {
@@ -27,5 +28,9 @@ export const router = createBrowserRouter([
                 path: 'recuperarSenha'
             }
         ]
+    },
+    {
+        path: '/catalogo',
+        element: <Catalog/>
     }
 ])

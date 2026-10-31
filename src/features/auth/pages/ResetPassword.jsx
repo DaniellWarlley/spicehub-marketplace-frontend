@@ -3,10 +3,8 @@ import { MdLockOutline, MdOutlineEmail } from "react-icons/md"
 import Input from "../components/Input"
 import OtpInput from "../components/OtpInput"
 import usePassReset from "../hooks/usePassReset"
-import { useState } from "react"
 import { Controller } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
-import authService from "../services/authService"
 
 const aparecer = keyframes`
     from {
@@ -73,43 +71,8 @@ const Button = styled.button`
     }
 `
 export default function ResetPassword(){
-    const { register, errors, control, trigger, getValues, handleSubmit, onSubmit } = usePassReset()
+    const { register, errors, control, handleStepSubmit, step } = usePassReset()
     const navigate = useNavigate()
-    const [step, setStep] = useState("email")
-
-    const handleStepSubmit = async (event) => {
-        event.preventDefault()
-
-        try {
-            if (step === 'email') {
-                const valid = await trigger('email')
-
-                if (!valid) return
-
-                await authService.requestResetCode({
-                    email: getValues('email').trim(),
-                })
-
-                setStep('code')
-                return
-            }
-
-            if (step === 'code') {
-                const valid = await trigger('code')
-
-                if (!valid) return
-
-                setStep('pass')
-                return
-            }
-
-            if (step === 'pass') {
-                await handleSubmit(onSubmit)(event)
-            }
-        } catch (err) {
-            console.log(err)
-        }
-    }
 
     return (
         <Form onSubmit={handleStepSubmit}>

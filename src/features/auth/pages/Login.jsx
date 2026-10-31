@@ -59,11 +59,6 @@ const Options = styled.div`
         cursor: pointer;
     }
 `
-const CheckBoxContainer = styled.div`
-    display: flex;
-
-    gap: 5px;
-`
 const ButtonContainer = styled.div`
     display:flex;
     flex-direction: column;
@@ -107,10 +102,6 @@ export default function Login(){
             <Input type="text" placeholder="seuemail@gmail.com" label="E-MAIL" icon={MdOutlineEmail} name="email" register={register} errors={errors.email?.message}/>
             <Input type="password" placeholder="Digite sua senha" label="SENHA" icon={MdLockOutline} name="password" register={register} errors={errors.password?.message}/>
             <Options>
-                <CheckBoxContainer>
-                    <input type="checkbox"/>
-                    <p>Lembrar de mim</p>
-                </CheckBoxContainer>
                 <p onClick={() => {
                     setEmail(getValues('email'))
                     navigate('/recuperarSenha')

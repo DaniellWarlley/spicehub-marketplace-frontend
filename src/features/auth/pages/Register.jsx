@@ -33,7 +33,7 @@ const Form = styled.form`
     animation: ${aparecer} 0.3s ease;
 `
 const TitleContainer = styled.div`
-    margin-bottom: 5 %;
+    margin-bottom: 5%;
     
     font-size: 0.9em;
     
@@ -89,7 +89,7 @@ export default function Register(){
             <Input type="password" placeholder="Digite sua senha" label="SENHA" icon={MdLockOutline} register={register} name='password' errors={errors.password?.message}/>
             
             <ButtonContainer>
-                <Button type="submit" >ENTRAR NA MINHA CONTA</Button>
+                <Button type="submit" >CRIAR CONTA</Button>
                 <p>Já tem uma conta? <span onClick={() => navigate("../")}>Clique aqui.</span></p>
             </ButtonContainer>
         </Form>
